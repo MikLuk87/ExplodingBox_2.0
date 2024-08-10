@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Box))]
@@ -13,34 +12,20 @@ public class Spawner : MonoBehaviour
     {
         if (Random.Range(0, _maxRandom) <= box.SpawnChance)
         {
-            Rigidbody parentRb = box.GetRigidbody();
+            Rigidbody parentRigidbody = box.GetRigidbody();
 
             int randomQuantity = Random.Range(_minQuantity, _maxQuantity);
 
             for (int i = 0; i < randomQuantity; i++)
             {
-                Instantiate(parentRb, box.transform.position, box.transform.rotation);
+                Instantiate(parentRigidbody, box.transform.position, box.transform.rotation);
             }
         }
         else
         {
-            foreach (Rigidbody explodableObject in GetExplodableObgects())
-                explodableObject.AddExplosionForce(box.ExplosionForce, transform.position, box.ExplosionRadius);
+            Exploder exploder = new();
+
+            exploder.Explod(box);
         }
-    }
-
-    private List<Rigidbody> GetExplodableObgects()
-    {
-        Box box = GetComponent<Box>();
-
-        Collider[] objects = Physics.OverlapSphere(transform.position, box.ExplosionRadius);
-
-        List<Rigidbody> boxes = new();
-
-        foreach (Collider obj in objects)
-            if (obj.attachedRigidbody != null)
-                boxes.Add(obj.attachedRigidbody);
-
-        return boxes;
     }
 }
