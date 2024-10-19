@@ -9,9 +9,9 @@ public class Box : MonoBehaviour
     [SerializeField] private float _reduction = 2f;
 
     [field: SerializeField] public float ExplosionRadius { get; private set; }
-    [field: SerializeField] public float ExplosionForce { get; private set; }
+    [field: SerializeField] public float ExplosionForce { get; }
 
-    public float SpawnChance { get { return _spawnChance; } private set { } }
+    public float SpawnChance { get { return _spawnChance; } }
 
     private void OnMouseDown()
     {
